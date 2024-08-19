@@ -2,7 +2,10 @@ package com.projetofinal.eeventserverfinal.models;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -11,6 +14,9 @@ import java.util.UUID;
 
 @Data
 @Entity(name ="event_entity")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class EventEntity {
 
 

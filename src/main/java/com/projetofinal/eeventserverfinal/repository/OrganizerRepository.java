@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface OrganizerRepository extends JpaRepository<OrganizerEntity, UUID>{
     Optional<OrganizerEntity> findByEmailOrUsername(String email, String username);
+    Optional<OrganizerEntity> findByEmail(String email);
 }

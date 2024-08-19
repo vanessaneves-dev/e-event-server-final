@@ -1,7 +1,6 @@
 package com.projetofinal.eeventserverfinal.controllers;
 
 
-import com.projetofinal.eeventserverfinal.exceptions.UserFoundException;
 import com.projetofinal.eeventserverfinal.models.OrganizerEntity;
 import com.projetofinal.eeventserverfinal.service.OrganizerService;
 import jakarta.validation.Valid;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/organizer")
-public class OrganizerControle {
+public class OrganizerController {
 
     @Autowired
     private OrganizerService organizerService;
