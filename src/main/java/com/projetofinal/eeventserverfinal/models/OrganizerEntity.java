@@ -30,7 +30,7 @@ public class OrganizerEntity {
         @Email(message = "O e-mail precisa ser válido")
         private String email;
 
-        @Length(min = 6, max = 10, message = "Senha deve ter entre 6 e 10 ")
+        @Length(min = 6, max = 200, message = "Senha deve ter entre 6 e 10 ")
         private String password;
 
         @CreatedDate

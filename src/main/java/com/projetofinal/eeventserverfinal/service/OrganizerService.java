@@ -6,6 +6,10 @@ import com.projetofinal.eeventserverfinal.repository.OrganizerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class OrganizerService {
 
@@ -21,5 +25,21 @@ public class OrganizerService {
 
         return this.organizerRepository.save(organizerEntity);
 
+    }
+
+    public Optional<OrganizerEntity> getOrganizerById(UUID id) {
+        return this.organizerRepository.findById(id);
+    }
+
+    public List<OrganizerEntity> getAllOrganizers() {
+        return this.organizerRepository.findAll();
+    }
+
+    public void deleteOrganizer(UUID id) {
+        if (this.organizerRepository.existsById(id)) {
+            this.organizerRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("Organizer not found");
+        }
     }
 }
