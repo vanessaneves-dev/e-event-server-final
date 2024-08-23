@@ -2,6 +2,7 @@ package com.projetofinal.eeventserverfinal.controllers;
 
 
 
+import com.projetofinal.eeventserverfinal.dto.ProfileUserResponseDTO;
 import com.projetofinal.eeventserverfinal.models.UserEntity;
 import com.projetofinal.eeventserverfinal.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -34,10 +36,17 @@ public class UserController {
         }
     }
 
+    // endpoint para listar todos os usuários - quando implementa ADMIN
     @GetMapping("/all")
-    public ResponseEntity<Object> getAllUsers() {
-        var users = userService.findAll();
-        return ResponseEntity.ok(users);
+    //@PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<List<ProfileUserResponseDTO>> getAllUsers() {
+        try {
+            // Chamando o serviço que lista todos os usuários
+            var users = this.userService.getAllUsers();
+            return ResponseEntity.ok().body(users);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
 
@@ -72,6 +81,44 @@ public class UserController {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
+
+    // Novo endpoint para atualizar os dados do usuário
+    @PutMapping("/update")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> updateUser(HttpServletRequest request, @RequestBody UserEntity updatedUser) {
+        var userId = request.getAttribute("user_id");
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user_id não encontrado");
+        }
+
+        try {
+            var user = this.userService.updateUser(UUID.fromString(userId.toString()), updatedUser);
+            return ResponseEntity.ok().body(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+    // Novo endpoint para deletar um usuário
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Object> deleteUser(HttpServletRequest request) {
+        var userId = request.getAttribute("user_id");
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user_id não encontrado");
+        }
+
+        try {
+            this.userService.deleteUser(UUID.fromString(userId.toString()));
+            return ResponseEntity.ok().body("Usuário deletado com sucesso.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
 
 }
 
