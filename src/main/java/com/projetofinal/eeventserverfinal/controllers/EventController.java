@@ -8,6 +8,7 @@ import com.projetofinal.eeventserverfinal.service.EventService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class EventController {
 
 
     @PostMapping("/new")
+    @PreAuthorize("hasRole('ORGANIZER')")
     public EventEntity create(@Valid @RequestBody CreateEventDTO createEventDTO, HttpServletRequest request){
          var organizerId = request.getAttribute("organizer_id");
        // eventEntity.setOrganizerId(UUID.fromString(organizerId.toString()));

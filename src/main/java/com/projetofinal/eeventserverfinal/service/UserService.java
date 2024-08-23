@@ -24,7 +24,7 @@ public class UserService {
 
     public UserEntity execute(UserEntity userEntity){
         this.userRepository
-                .findByEmailOrUsername(userEntity.getEmail(), userEntity.getUsername())
+                .findByEmail(userEntity.getEmail())
                 .ifPresent((user) -> {
                     throw new UserFoundException();
                 });

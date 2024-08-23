@@ -18,7 +18,7 @@ public class OrganizerService {
 
     public OrganizerEntity execute(OrganizerEntity organizerEntity) {
 
-        this.organizerRepository.findByEmailOrUsername(organizerEntity.getEmail(), organizerEntity.getUsername())
+        this.organizerRepository.findByEmail(organizerEntity.getEmail())
                 .ifPresent((user) -> {
                     throw new UserFoundException();
                 });

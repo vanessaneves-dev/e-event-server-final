@@ -44,7 +44,7 @@ public class AuthUserEntityService {
        var token =  JWT.create()
                .withIssuer("event")
                .withSubject(useEntity.getId().toString())
-               .withClaim("roles", Arrays.asList("user"))
+               .withClaim("roles", Arrays.asList("USER"))
                .withExpiresAt(Instant.now().plus(Duration.ofHours(5)))
                .sign(algorithm);
 
