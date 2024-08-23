@@ -17,19 +17,26 @@ public class SecurityConfig {
     @Autowired
    private SecurityFilter securityFilter; ;
 
+   @Autowired
+   private SecurityUserFilter securityUserFilter; ;
+
+
+
 
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/users/new").permitAll()
-                            .requestMatchers("/organizer/new").permitAll()
-                            .requestMatchers("/auth/organizer").permitAll()
+                    auth.requestMatchers("api/user/new").permitAll()
+                            .requestMatchers("api/organizer/new").permitAll()
+                            .requestMatchers("api/organizer/auth").permitAll()
+                            .requestMatchers("api/user/auth").permitAll()
                     ;
                     auth.anyRequest().authenticated();
 
                 })
                 .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
+                .addFilterBefore( securityUserFilter, BasicAuthenticationFilter.class)
         ;
         return http.build();
     };

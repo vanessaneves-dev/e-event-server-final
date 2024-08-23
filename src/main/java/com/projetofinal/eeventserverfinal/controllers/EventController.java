@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/event")
+@RequestMapping("api/event")
 public class EventController {
 
     @Autowired
@@ -35,6 +35,7 @@ public class EventController {
                 .date(createEventDTO.getDate())
                 .time(createEventDTO.getTime())
                 .category(createEventDTO.getCategory())
+                .image(createEventDTO.getImage())
                 .build();
 
         return this.eventService.execute(eventEntity);

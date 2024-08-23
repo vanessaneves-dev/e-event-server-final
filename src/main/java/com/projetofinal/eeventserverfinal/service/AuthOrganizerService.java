@@ -44,7 +44,7 @@ public class AuthOrganizerService {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
            var token =  JWT.create().withIssuer("event")
                    .withExpiresAt(Instant.now().plus(Duration.ofHours(5)))
-                   .withSubject(organizer.getEmail().toString())
+                   .withSubject(organizer.getId().toString())
                    .sign(algorithm);
            return token;
     }

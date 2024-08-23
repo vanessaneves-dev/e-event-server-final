@@ -32,6 +32,9 @@ public class EventEntity {
     private String date;
     private String time;
     private String category;
+    private String image;
+
+
 
     @ManyToOne
     @JoinColumn(name = "organizer_id", insertable = false, updatable = false)
@@ -39,9 +42,6 @@ public class EventEntity {
 
     @Column(name = "organizer_id")
     private UUID organizerId ;
-
-    @CreatedDate
-    private LocalDateTime createAt;
 
 
 }

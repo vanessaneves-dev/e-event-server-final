@@ -33,6 +33,5 @@ public class OrganizerEntity {
         @Length(min = 6, max = 200, message = "Senha deve ter entre 6 e 10 ")
         private String password;
 
-        @CreatedDate
-        private LocalDateTime createAt;
+        private String image;
 }

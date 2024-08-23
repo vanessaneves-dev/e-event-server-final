@@ -12,5 +12,6 @@ public class CreateEventDTO {
     private String date;
     private String time;
     private String category;
+    private String image;
 
 }
