@@ -32,9 +32,9 @@ public class SecurityConfig {
                     auth.requestMatchers("api/user/new").permitAll()
                             .requestMatchers("api/organizer/new").permitAll()
                             .requestMatchers("api/organizer/auth").permitAll()
-                            .requestMatchers("api/user").permitAll()
-
-                            .requestMatchers("api/users/auth").permitAll()
+                            .requestMatchers("api/user/auth").permitAll()
+                            .requestMatchers("api/user/authok").permitAll()
+                            .requestMatchers("api/organizer").permitAll()
                     ;
                     auth.anyRequest().authenticated();
 

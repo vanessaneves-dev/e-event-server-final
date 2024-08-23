@@ -39,7 +39,7 @@ public class UserService {
     }
 
 
-    public ProfileUserResponseDTO execute (UUID idUser) {
+    public ProfileUserResponseDTO executeProfile (UUID idUser) {
        var user =  this.userRepository.findById(idUser)
                 .orElseThrow(() ->
                     new UsernameNotFoundException("User not found")

@@ -1,6 +1,7 @@
 package com.projetofinal.eeventserverfinal.models;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,15 +25,23 @@ public class EventEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     private String title;
+
+    @Column(length = 500)
     private String description;
 
     @Embedded
     private Address location;
 
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private String date;
+
+    @JsonFormat(pattern = "HH:mm")
     private String time;
+
+
     private String category;
     private String image;
+    private String maps;
 
 
 

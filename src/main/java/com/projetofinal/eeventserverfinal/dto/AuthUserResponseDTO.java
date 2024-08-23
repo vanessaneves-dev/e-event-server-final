@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthUserEntityResponseDTO {
+public class AuthUserResponseDTO {
 
     private String access_user_token;
 }
