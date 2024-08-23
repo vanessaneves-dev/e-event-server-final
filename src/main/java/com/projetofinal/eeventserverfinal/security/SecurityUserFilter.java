@@ -26,15 +26,22 @@ public class SecurityUserFilter  extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        // Adicionando log para verificar se o filtro está sendo executado
+        System.out.println("SecurityUserFilter: Executando filtro para a URI: " + request.getRequestURI());
+
 
         //SecurityContextHolder.getContext().setAuthentication(null);
         String header = request.getHeader("Authorization");
 
         if ( request.getRequestURI().startsWith("/api/user") ) {
+
+            System.out.println("SecurityUserFilter: Header Authorization encontrado: " + header);
+
             if (header != null) {
                 var token = this.jwtUserProvider.validateToken(header);
 
-                if (token != null) {
+                if (token == null) {
+                    System.out.println("SecurityUserFilter: Token inválido ou não encontrado.");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
                 }
