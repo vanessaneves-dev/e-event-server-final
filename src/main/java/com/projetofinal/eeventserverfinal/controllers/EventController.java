@@ -8,12 +8,11 @@ import com.projetofinal.eeventserverfinal.service.EventService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -41,6 +40,51 @@ public class EventController {
                 .build();
 
         return this.eventService.execute(eventEntity);
+    }
+
+
+    // Endpoint para atualizar um evento
+    @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ORGANIZER')")
+    public ResponseEntity<Object> update(@PathVariable UUID id, @Valid @RequestBody CreateEventDTO updateEventDTO, HttpServletRequest request) {
+        var organizerId = UUID.fromString(request.getAttribute("organizer_id").toString());
+        try {
+            var updatedEvent = this.eventService.updateEvent(id, updateEventDTO, organizerId);
+            return ResponseEntity.ok().body(updatedEvent);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // Endpoint para deletar um evento
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ORGANIZER')")
+    public ResponseEntity<Object> delete(@PathVariable UUID id, HttpServletRequest request) {
+        var organizerId = UUID.fromString(request.getAttribute("organizer_id").toString());
+        try {
+            this.eventService.deleteEvent(id, organizerId);
+            return ResponseEntity.ok().body("Evento deletado com sucesso.");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    // Endpoint para obter todos os eventos
+    @GetMapping("/all")
+    public ResponseEntity<List<EventEntity>> getAllEvents() {
+        var events = this.eventService.getAllEvents();
+        return ResponseEntity.ok().body(events);
+    }
+
+    // Endpoint para obter um evento por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getEventById(@PathVariable UUID id) {
+        try {
+            var event = this.eventService.getEventById(id);
+            return ResponseEntity.ok().body(event);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 }

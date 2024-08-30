@@ -51,10 +51,10 @@ public class UserController {
 
 
     //get do perfil ususario logado
-    @GetMapping("/authok")
+    @GetMapping("/")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Object> getById(HttpServletRequest request) {
-        System.out.println("Endpoint /authok foi chamado");
+        System.out.println("Endpoint / foi chamado");
         var userId = request.getAttribute("user_id");
 
         //verificação de erros
@@ -81,6 +81,10 @@ public class UserController {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
+
+
+
+
 
     // Novo endpoint para atualizar os dados do usuário
     @PutMapping("/update")

@@ -16,12 +16,14 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class SecurityConfig {
 
+//    @Autowired
+//   private SecurityFilter securityFilter; ;
+//
+//   @Autowired
+//   private SecurityUserFilter securityUserFilter; ;
+
     @Autowired
-   private SecurityFilter securityFilter; ;
-
-   @Autowired
-   private SecurityUserFilter securityUserFilter; ;
-
+    private CombinedSecurityFilter combinedSecurityFilter;
 
 
 
@@ -31,16 +33,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers("api/user/new").permitAll()
                             .requestMatchers("api/organizer/new").permitAll()
+                            .requestMatchers("api/organizer").permitAll()
+                            .requestMatchers("api/organizer/id").permitAll()
                             .requestMatchers("api/organizer/auth").permitAll()
                             .requestMatchers("api/user/auth").permitAll()
-                            .requestMatchers("api/user/authok").permitAll()
-                            .requestMatchers("api/organizer").permitAll()
+                            .requestMatchers("api/user").permitAll()
+                            .requestMatchers("api/organizer/event/new").hasRole("ORGANIZER")
+                            .requestMatchers("api/organizer/event/update/**").hasRole("ORGANIZER")
+                            .requestMatchers("api/organizer/event/delete/**").hasRole("ORGANIZER")
+                            .requestMatchers("api/organizer/event/**").permitAll()
                     ;
                     auth.anyRequest().authenticated();
 
                 })
-                .addFilterBefore( securityUserFilter, BasicAuthenticationFilter.class)
-                .addFilterBefore(securityFilter, BasicAuthenticationFilter.class)
+//
+                .addFilterBefore(combinedSecurityFilter, BasicAuthenticationFilter.class);
 
         ;
         return http.build();
