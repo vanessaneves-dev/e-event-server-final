@@ -34,8 +34,18 @@ public class UserService {
         return this.userRepository.save(userEntity);
     };
 
-    public List<UserEntity> findAll() {
-        return userRepository.findAll();
+    // Novo método para listar todos os usuários ---quando impelmentas ADMIN
+    public List<ProfileUserResponseDTO> getAllUsers() {
+        var users = this.userRepository.findAll();
+        return users.stream().map(user ->
+                ProfileUserResponseDTO.builder()
+                        .email(user.getEmail())
+                        .name(user.getName())
+                        .username(user.getUsername())
+                        .image(user.getImage())
+                        .id(user.getId())
+                        .build()
+        ).toList();
     }
 
 
@@ -56,9 +66,32 @@ public class UserService {
              }
 
 
+    // Método para atualizar os dados do usuário
+    public ProfileUserResponseDTO updateUser(UUID idUser, UserEntity updatedUser) {
+        var user = this.userRepository.findById(idUser)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-    public UserEntity findById(UUID id) {
-        return userRepository.findById(id).orElse(null);
+        user.setName(updatedUser.getName());
+        user.setEmail(updatedUser.getEmail());
+        user.setUsername(updatedUser.getUsername());
+        user.setImage(updatedUser.getImage());
+
+        this.userRepository.save(user);
+
+        return ProfileUserResponseDTO.builder()
+                .email(user.getEmail())
+                .name(user.getName())
+                .username(user.getUsername())
+                .image(user.getImage())
+                .id(user.getId())
+                .build();
+    }
+
+    // Método para deletar um usuário
+    public void deleteUser(UUID idUser) {
+        var user = this.userRepository.findById(idUser)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        this.userRepository.delete(user);
     }
 
 
