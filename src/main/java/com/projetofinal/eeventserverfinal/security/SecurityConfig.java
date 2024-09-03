@@ -42,6 +42,10 @@ public class SecurityConfig {
                             .requestMatchers("api/organizer/event/update/**").hasRole("ORGANIZER")
                             .requestMatchers("api/organizer/event/delete/**").hasRole("ORGANIZER")
                             .requestMatchers("api/organizer/event/**").permitAll()
+                            .requestMatchers("/api/user-event/**").permitAll()
+//                            .requestMatchers("/api/user-event/confirmed").permitAll()
+//                            .requestMatchers("/api/user-event/favorites").permitAll()
+//                            .requestMatchers("/api/user-event/favorite").permitAll()
                     ;
                     auth.anyRequest().authenticated();
 

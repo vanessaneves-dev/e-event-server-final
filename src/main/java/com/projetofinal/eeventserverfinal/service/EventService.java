@@ -31,10 +31,15 @@ public class EventService {
 
         event.setTitle(updateEventDTO.getTitle());
         event.setDescription(updateEventDTO.getDescription());
-        event.setLocation(updateEventDTO.getLocation());
+        event.setStreet(updateEventDTO.getStreet());
+        event.setNumber(updateEventDTO.getNumber());
+        event.setCity(updateEventDTO.getCity());
+        event.setState(updateEventDTO.getState());
+        event.setPostalCode(updateEventDTO.getPostalCode());
         event.setDate(updateEventDTO.getDate());
         event.setTime(updateEventDTO.getTime());
         event.setCategory(updateEventDTO.getCategory());
+        event.setMaps(updateEventDTO.getMaps());
         event.setImage(updateEventDTO.getImage());
 
         return this.eventRepository.save(event);
@@ -63,5 +68,8 @@ public class EventService {
                 .orElseThrow(() -> new RuntimeException("Evento não encontrado"));
     }
 
+    public List<EventEntity> getEventsByOrganizerId(UUID organizerId) {
+        return eventRepository.findByOrganizerId(organizerId);
+    }
 
 }
