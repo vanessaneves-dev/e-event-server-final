@@ -87,17 +87,10 @@ public class UserController {
 
 
     // Novo endpoint para atualizar os dados do usuário
-    @PutMapping("/update")
-    @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Object> updateUser(HttpServletRequest request, @RequestBody UserEntity updatedUser) {
-        var userId = request.getAttribute("user_id");
-
-        if (userId == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("user_id não encontrado");
-        }
-
-        try {
-            var user = this.userService.updateUser(UUID.fromString(userId.toString()), updatedUser);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Object> updateUser(@PathVariable UUID id, @RequestBody UserEntity updatedUser) {
+       try {
+            var user = this.userService.updateUser(id,updatedUser);
             return ResponseEntity.ok().body(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

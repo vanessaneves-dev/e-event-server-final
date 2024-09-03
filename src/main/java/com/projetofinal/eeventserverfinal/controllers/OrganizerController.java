@@ -47,7 +47,6 @@ public class OrganizerController {
     }
 
     @GetMapping("/")
-
     public ResponseEntity<Object> getById(HttpServletRequest request) {
         System.out.println("Endpoint / foi chamado");
         var organizerId = request.getAttribute("organizer_id");

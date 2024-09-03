@@ -29,8 +29,12 @@ public class EventEntity {
     @Column(length = 500)
     private String description;
 
-    @Embedded
-    private Address location;
+    private String street;
+    private String number;
+    private String city;
+    private String state;
+    private String postalCode;
+
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private String date;
@@ -41,6 +45,8 @@ public class EventEntity {
 
     private String category;
     private String image;
+
+    @Column(length = 500)
     private String maps;
 
 

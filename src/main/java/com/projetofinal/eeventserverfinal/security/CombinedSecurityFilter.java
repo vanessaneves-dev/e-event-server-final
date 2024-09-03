@@ -29,6 +29,13 @@ public class CombinedSecurityFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+        String uri = request.getRequestURI();
+
+        // Ignorar a rota /api/user-event
+        if (uri.startsWith("/api/user-event")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         String header = request.getHeader("Authorization");
 

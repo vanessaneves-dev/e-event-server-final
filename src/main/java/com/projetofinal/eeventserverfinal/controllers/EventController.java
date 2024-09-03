@@ -32,7 +32,11 @@ public class EventController {
                 .organizerId(UUID.fromString(organizerId.toString()))
                 .title(createEventDTO.getTitle())
                 .description(createEventDTO.getDescription())
-                .location(createEventDTO.getLocation())
+                .street(createEventDTO.getStreet())
+                .number(createEventDTO.getNumber())
+                .city(createEventDTO.getCity())
+                .state(createEventDTO.getState())
+                .postalCode(createEventDTO.getPostalCode())
                 .date(createEventDTO.getDate())
                 .time(createEventDTO.getTime())
                 .category(createEventDTO.getCategory())
@@ -82,6 +86,16 @@ public class EventController {
         try {
             var event = this.eventService.getEventById(id);
             return ResponseEntity.ok().body(event);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/organizer/{organizerId}")
+    public ResponseEntity<Object> getEventsByOrganizerId(@PathVariable UUID organizerId) {
+        try {
+            var events = this.eventService.getEventsByOrganizerId(organizerId);
+            return ResponseEntity.ok().body(events);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
